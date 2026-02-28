@@ -1,0 +1,43 @@
+{
+  "app": {
+    "name": "DevOpsPro App",
+    "version": "1.0.0",
+    "logLevel": "info"
+  },
+  "environments": {
+    "development": {
+      "apiUrl": "http://localhost:3000",
+      "logLevel": "debug",
+      "features": {
+        "enableDebug": true,
+        "mockServices": true
+      }
+    },
+    "staging": {
+      "apiUrl": "https://devopspro-dev.example.com",
+      "logLevel": "info",
+      "features": {
+        "enableDebug": true,
+        "mockServices": false
+      }
+    },
+    "production": {
+      "apiUrl": "https://devopspro.example.com",
+      "logLevel": "error",
+      "features": {
+        "enableDebug": false,
+        "mockServices": false
+      }
+    }
+  },
+  "monitoring": {
+    "enableHealthChecks": true,
+    "metricsEndpoint": "/metrics",
+    "healthCheckInterval": 30
+  },
+  "scaling": {
+    "minReplicas": 1,
+    "maxReplicas": 10,
+    "targetCpuUtilization": 70
+  }
+}

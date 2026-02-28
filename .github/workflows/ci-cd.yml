@@ -1,0 +1,75 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: app/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd app
+        npm ci
+
+    - name: Run tests
+      run: |
+        cd app
+        npm test
+
+    - name: Run linting
+      run: |
+        cd app
+        npm run lint
+
+    - name: Build Docker image
+      run: docker build -t devopspro-app:${{ github.sha }} .
+
+    - name: Run Docker container
+      run: |
+        docker run -d -p 3000:3000 --name devopspro-test devopspro-app:${{ github.sha }}
+        sleep 5
+        curl -f http://localhost:3000/health || exit 1
+
+  deploy-dev:
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Deploy to Development
+      run: |
+        echo "Despliegue a entorno de desarrollo..."
+        # Aquí iría la lógica de despliegue real
+
+  deploy-prod:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Deploy to Production
+      run: |
+        echo "Despliegue a entorno de producción..."
+        # Aquí iría la lógica de despliegue real
