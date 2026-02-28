@@ -42,8 +42,8 @@ jobs:
     - name: Run Docker container
       run: |
         docker run -d -p 3000:3000 --name devopspro-test devopspro-app:${{ github.sha }}
-        sleep 5
-        curl -f http://localhost:3000/health || exit 1
+        sleep 10
+        curl -f http://localhost:3000/health || (docker logs devopspro-test && exit 1)
 
   deploy-dev:
     needs: build
