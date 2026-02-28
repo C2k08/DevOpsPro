@@ -17,13 +17,19 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/health', (req, res) => {
+app.get('/info', (req, res) => {
   res.json({
-    estado: 'ok',
-    servicio: 'DevOpsProApp',
+    proyecto: 'DevOpsPro',
+    descripcion: 'Proyecto completo de DevOps con CI/CD, Docker y Kubernetes',
     version: '1.0.0',
-    mensaje: 'Aplicación funcionando correctamente - CI/CD DEMOSTRADO'
+    autor: 'Equipo DevOps',
+    github: 'https://github.com/C2k08/DevOpsPro',
+    tecnologias: ['Node.js', 'Express', 'Docker', 'Kubernetes', 'GitHub Actions']
   });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ estado: 'ok' });
 });
 
 // API de Tareas (CRUD)
