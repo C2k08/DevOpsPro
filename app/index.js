@@ -8,11 +8,12 @@ app.use(express.json());
 // Rutas
 app.get('/', (req, res) => {
   res.json({
-    mensaje: 'API de ejemplo para DevOpsPro - PROYECTO DEVOPS',
+    mensaje: 'API de ejemplo para DevOpsPro - PROYECTO DEVOPS COMPLETO',
     estado: 'funcionando',
     timestamp: new Date(),
     autor: 'Equipo DevOps',
-    entorno: process.env.NODE_ENV || 'development'
+    entorno: process.env.NODE_ENV || 'development',
+    github: 'https://github.com/C2k08/DevOpsPro'
   });
 });
 
